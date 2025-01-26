@@ -29,9 +29,6 @@ async function SnippetShowPage({ params }: SnippetShowPageProps) {
         <h3 className="font-bold">{snippet.title}</h3>
         <pre>{snippet.code}</pre>
       </div>
-      <p>
-        Snippet <span>{id}</span> found
-      </p>
     </div>
   );
 }
