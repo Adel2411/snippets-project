@@ -1,25 +1,7 @@
-import { db } from "@/db";
-import { redirect } from "next/navigation";
 import React from "react";
+import { createSnippet } from "./action";
 
 function SnippetCreatePage() {
-  async function createSnippet(formData: FormData) {
-    "use server";
-
-    const title = formData.get("title") as string;
-    const code = formData.get("code") as string;
-
-    const snippet = await db.snippet.create({
-      data: {
-        title,
-        code,
-      },
-    });
-    console.log(snippet);
-
-    redirect("/");
-  }
-
   return (
     <form action={createSnippet}>
       <h3 className="font-bold m-3">Create a new snippet</h3>
@@ -41,7 +23,7 @@ function SnippetCreatePage() {
           />
         </div>
 
-        <button type="submit" className="rounded p-2 bg-slate-800">
+        <button type="submit" className="rounded p-2 bg-slate-300">
           Create
         </button>
       </div>
