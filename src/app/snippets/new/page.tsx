@@ -1,5 +1,5 @@
+import { createSnippet } from "@/actions";
 import React from "react";
-import { createSnippet } from "./action";
 
 function SnippetCreatePage() {
   return (

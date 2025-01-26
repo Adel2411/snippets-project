@@ -1,3 +1,4 @@
+import { deleteSnippet } from "@/actions";
 import { db } from "@/db";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -19,6 +20,8 @@ async function SnippetShowPage({ params }: SnippetShowPageProps) {
     return notFound();
   }
 
+  const deleteSnippetAction = deleteSnippet.bind(null, snippet.id);
+
   return (
     <div className="flex flex-col gap-10">
       <h1 className="font-bold text-2xl m-4">Snippet View !</h1>
@@ -32,7 +35,9 @@ async function SnippetShowPage({ params }: SnippetShowPageProps) {
             >
               Edit
             </Link>
-            <button className="border rounded-md px-4 py-1">Delete</button>
+            <form action={deleteSnippetAction}>
+              <button className="border rounded-md px-4 py-1">Delete</button>
+            </form>
           </div>
         </div>
         <pre className="flex flex-col gap-8 border rounded-md p-2 m-4 bg-gradient-to-br from-slate-100 to-gray-200 shadow-md">
