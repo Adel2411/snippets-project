@@ -3,12 +3,40 @@
 import { db } from "@/db";
 import { redirect } from "next/navigation";
 
-export async function createSnippet(formData: FormData) {
+type stateType = {
+  title: {
+    error: string;
+  };
+  code: {
+    error: string;
+  };
+};
+
+export async function createSnippet(
+  previousState: stateType,
+  formData: FormData,
+) {
   const title = formData.get("title") as string;
   const code = formData.get("code") as string;
 
-  if (!title || !code) {
-    return;
+  if (!title) {
+    return {
+      title: {
+        error: "Title must be longer!",
+      },
+      code: {
+        error: "",
+      },
+    };
+  } else if (!code) {
+    return {
+      code: {
+        error: "Code must be longer!",
+      },
+      title: {
+        error: "",
+      },
+    };
   }
 
   await db.snippet.create({

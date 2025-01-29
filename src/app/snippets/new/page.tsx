@@ -1,9 +1,25 @@
+"use client";
+
+import { useActionState } from "react";
 import { createSnippet } from "@/actions";
-import React from "react";
+
+const initialState = {
+  title: {
+    error: "",
+  },
+  code: {
+    error: "",
+  },
+};
 
 function SnippetCreatePage() {
+  const [state, createSnippetAction] = useActionState(
+    createSnippet,
+    initialState,
+  );
+
   return (
-    <form action={createSnippet}>
+    <form action={createSnippetAction}>
       <h3 className="font-bold m-3">Create a new snippet</h3>
       <div className="flex flex-col gap-4">
         <div className="flex gap-4">
@@ -14,6 +30,9 @@ function SnippetCreatePage() {
             id="title"
           />
         </div>
+        {state.title.error && (
+          <div className="text-red-500">{state.title.error}</div>
+        )}
         <div className="flex gap-4">
           <label className="w-12">Code</label>
           <textarea
@@ -22,6 +41,9 @@ function SnippetCreatePage() {
             id="code"
           />
         </div>
+        {state.code.error && (
+          <div className="text-red-500">{state.code.error}</div>
+        )}
 
         <button type="submit" className="rounded p-2 bg-slate-300">
           Create
