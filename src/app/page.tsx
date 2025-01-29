@@ -3,7 +3,6 @@ import Link from "next/link";
 
 export default async function Home() {
   const snippets = await db.snippet.findMany();
-  console.log(snippets);
 
   return (
     <div className="min-h-screen p-8 flex flex-col gap-10">
