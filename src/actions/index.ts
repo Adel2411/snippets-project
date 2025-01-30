@@ -59,6 +59,7 @@ export async function editSnippet(id: number, code: string) {
     },
   });
 
+  revalidatePath(`/snippets/${id}`);
   redirect(`/snippets/${id}`);
 }
 
