@@ -1,25 +1,21 @@
 "use client";
 
-import { useActionState } from "react";
+import { FormEvent, startTransition, useActionState } from "react";
 import { createSnippet } from "@/actions";
 
-const initialState = {
-  title: {
-    error: "",
-  },
-  code: {
-    error: "",
-  },
-};
-
 function SnippetCreatePage() {
-  const [state, createSnippetAction] = useActionState(
-    createSnippet,
-    initialState,
-  );
+  const [state, createSnippetAction] = useActionState(createSnippet, {
+    message: "",
+  });
+
+  const handleCreateSnippet = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    startTransition(() => createSnippetAction(formData));
+  };
 
   return (
-    <form action={createSnippetAction}>
+    <form onSubmit={handleCreateSnippet}>
       <h3 className="font-bold m-3">Create a new snippet</h3>
       <div className="flex flex-col gap-4">
         <div className="flex gap-4">
@@ -30,9 +26,6 @@ function SnippetCreatePage() {
             id="title"
           />
         </div>
-        {state.title.error && (
-          <div className="text-red-500">{state.title.error}</div>
-        )}
         <div className="flex gap-4">
           <label className="w-12">Code</label>
           <textarea
@@ -41,9 +34,11 @@ function SnippetCreatePage() {
             id="code"
           />
         </div>
-        {state.code.error && (
-          <div className="text-red-500">{state.code.error}</div>
-        )}
+        {state.message ? (
+          <div className="text-red-500 p-2 bg-red-100 rounded-md">
+            {state.message}
+          </div>
+        ) : null}
 
         <button type="submit" className="rounded p-2 bg-slate-300">
           Create

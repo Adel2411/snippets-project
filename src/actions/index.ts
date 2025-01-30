@@ -3,48 +3,44 @@
 import { db } from "@/db";
 import { redirect } from "next/navigation";
 
-type stateType = {
-  title: {
-    error: string;
-  };
-  code: {
-    error: string;
-  };
-};
-
 export async function createSnippet(
-  previousState: stateType,
+  previousState: { message: string },
   formData: FormData,
 ) {
-  const title = formData.get("title") as string;
-  const code = formData.get("code") as string;
+  try {
+    const title = formData.get("title");
+    const code = formData.get("code");
 
-  if (!title) {
-    return {
-      title: {
-        error: "Title must be longer!",
+    if (typeof title !== "string" || title.length < 3) {
+      return {
+        message: "Title must be longer!",
+      };
+    } else if (typeof code !== "string" || code.length < 10) {
+      return {
+        message: "Code must be longer!",
+      };
+    }
+
+    await db.snippet.create({
+      data: {
+        title,
+        code,
       },
-      code: {
-        error: "",
-      },
-    };
-  } else if (!code) {
-    return {
-      code: {
-        error: "Code must be longer!",
-      },
-      title: {
-        error: "",
-      },
-    };
+    });
+
+    // This Error with this message will be displayed in error.tsx file
+    // throw new Error("Oops, something went wrong!");
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return {
+        message: error.message,
+      };
+    } else {
+      return {
+        message: "An error occurred",
+      };
+    }
   }
-
-  await db.snippet.create({
-    data: {
-      title,
-      code,
-    },
-  });
 
   redirect("/");
 }
