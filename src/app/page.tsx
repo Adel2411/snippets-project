@@ -27,11 +27,11 @@ export default async function Home() {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         {snippets.map((snippet) => (
           <div
             key={snippet.id}
-            className="h-72 group transition-all duration-300 overflow-hidden flex flex-col justify-between rounded-lg bg-zinc-800/50 shadow-xl border border-zinc-700/50"
+            className="h-80 group transition-all duration-300 overflow-hidden flex flex-col justify-between rounded-lg bg-zinc-800/50 shadow-xl border border-zinc-700/50"
           >
             <div className="p-4 border-b border-zinc-700/50">
               <div className="flex justify-between items-center">
