@@ -1,5 +1,7 @@
 import { deleteSnippet } from "@/actions";
 import { db } from "@/db";
+import { Button } from "@/components/ui/button";
+import { Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
@@ -23,25 +25,44 @@ async function SnippetShowPage({ params }: SnippetShowPageProps) {
   const deleteSnippetAction = deleteSnippet.bind(null, snippet.id);
 
   return (
-    <div className="flex flex-col gap-10">
-      <h1 className="font-bold text-2xl m-4">Snippet View !</h1>
-      <div>
+    <div className="min-h-screen bg-gradient-to-br from-zinc-900 to-zinc-800 p-8 flex flex-col gap-6">
+      <div className="bg-zinc-800/50 p-6 rounded-lg backdrop-blur-sm border border-zinc-700/50">
         <div className="flex items-center justify-between">
-          <h3 className="font-bold">{snippet.title}</h3>
-          <div className="flex items-center justify-center gap-4">
-            <Link
-              href={`/snippets/${snippet.id}/edit`}
-              className="border rounded-md px-4 py-1"
+          <div>
+            <h1 className="font-bold text-2xl bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
+              View Snippet
+            </h1>
+            <h3 className="text-zinc-400 mt-2 font-medium">{snippet.title}</h3>
+          </div>
+          <div className="flex gap-4">
+            <Button
+              asChild
+              variant="outline"
+              className="border-zinc-700 hover:bg-zinc-700/50"
             >
-              Edit
-            </Link>
+              <Link href={`/snippets/${snippet.id}/edit`}>
+                <Pencil className="w-4 h-4 mr-2" />
+                Edit
+              </Link>
+            </Button>
             <form action={deleteSnippetAction}>
-              <button className="border rounded-md px-4 py-1">Delete</button>
+              <Button
+                variant="destructive"
+                className="bg-red-500/10 text-red-500 hover:bg-red-500/20"
+              >
+                <Trash2 className="w-4 h-4 mr-2" />
+                Delete
+              </Button>
             </form>
           </div>
         </div>
-        <pre className="flex flex-col gap-8 border rounded-md p-2 m-4 bg-gradient-to-br from-slate-100 to-gray-200 shadow-md">
-          <code>{snippet.code}</code>
+      </div>
+
+      <div className="bg-zinc-800/50 rounded-lg backdrop-blur-sm border border-zinc-700/50 overflow-hidden">
+        <pre className="p-6 overflow-auto">
+          <code className="font-mono text-blue-300 text-sm">
+            {snippet.code}
+          </code>
         </pre>
       </div>
     </div>
