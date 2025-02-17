@@ -1,3 +1,5 @@
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { deleteSnippet } from "@/actions";
 import { db } from "@/db";
 import { Button } from "@/components/ui/button";
@@ -59,11 +61,9 @@ async function SnippetShowPage({ params }: SnippetShowPageProps) {
       </div>
 
       <div className="bg-zinc-800/50 rounded-lg backdrop-blur-sm border border-zinc-700/50 overflow-hidden">
-        <pre className="p-6 overflow-auto">
-          <code className="font-mono text-blue-300 text-sm">
-            {snippet.code}
-          </code>
-        </pre>
+        <SyntaxHighlighter language="javascript" style={dracula}>
+          {snippet.code}
+        </SyntaxHighlighter>
       </div>
     </div>
   );

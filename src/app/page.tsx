@@ -1,3 +1,5 @@
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { dracula } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { Button } from "@/components/ui/button";
 import { db } from "@/db";
 import { SquareArrowOutUpRight } from "lucide-react";
@@ -47,9 +49,13 @@ export default async function Home() {
                 </Button>
               </div>
             </div>
-            <pre className="p-4 bg-zinc-900/50 overflow-auto text-sm h-full">
-              <code className="font-mono text-blue-300">{snippet.code}</code>
-            </pre>
+            <SyntaxHighlighter
+              language="javascript"
+              style={dracula}
+              className="h-full"
+            >
+              {snippet.code}
+            </SyntaxHighlighter>
           </div>
         ))}
       </div>
